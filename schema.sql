@@ -30,3 +30,13 @@ CREATE TABLE IF NOT EXISTS GroupMemberships (
   FOREIGN KEY (group_id) REFERENCES Groups(group_id),
   FOREIGN KEY (phone_number) REFERENCES Users(phone_number)
 );
+
+-- Events table for groups
+CREATE TABLE IF NOT EXISTS Events (
+  event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  group_id INTEGER NOT NULL,
+  phone_number TEXT NOT NULL,
+  type INTEGER NOT NULL,
+  FOREIGN KEY (group_id) REFERENCES Groups(group_id),
+  FOREIGN KEY (phone_number) REFERENCES Users(phone_number)
+);
