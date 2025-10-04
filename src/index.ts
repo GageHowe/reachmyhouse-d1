@@ -90,13 +90,13 @@ export default {
     // Insert new event (POST: group_id, phone_number, type)
     if (pathname === "/api/event" && request.method === "POST") {
       const body = await request.json();
-      const { group_id, phone_number, type } = body;
-      if (!group_id || !phone_number || typeof type !== "number") {
-        return new Response("Missing or invalid fields", { status: 400 });
-      }
-      const result = await env.DB.prepare(
-        "INSERT INTO Events (group_id, phone_number, type) VALUES (?, ?, ?)"
-      ).bind(group_id, phone_number, type).run();
+      const { group_id, phone_number, message } = body;
+    if (!group_id || !phone_number || !message) {
+      return new Response("Missing or invalid fields", { status: 400 });
+    }
+    const result = await env.DB.prepare(
+      "INSERT INTO Events (group_id, phone_number, message) VALUES (?, ?, ?)"
+    ).bind(group_id, phone_number, message).run();
       return Response.json({ success: result.success, changes: result.changes });
     }
 
@@ -108,7 +108,7 @@ export default {
         return new Response("Missing group_id", { status: 400 });
       }
       const { results } = await env.DB.prepare(
-        `SELECT event_id, phone_number, type
+        `SELECT event_id, phone_number, message
         FROM Events
         WHERE group_id = ?`
       ).bind(group_id).all();
