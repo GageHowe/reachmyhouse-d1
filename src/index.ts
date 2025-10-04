@@ -80,7 +80,7 @@ export default {
     }
 
     return new Response(
-      "Available endpoints: /api/users /api/groups /api/group-members?group_id=<id>"
+      "endpoint not recognized"
     );
   },
 } satisfies ExportedHandler<Env>;
