@@ -11,7 +11,9 @@
 CREATE TABLE IF NOT EXISTS Users (
   phone_number TEXT PRIMARY KEY,
   name TEXT,
-  email TEXT
+  email TEXT,
+  latitude REAL NOT NULL DEFAULT 0.0,
+  longitude REAL NOT NULL DEFAULT 0.0
 );
 
 -- Groups table

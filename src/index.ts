@@ -52,12 +52,21 @@ export default {
     // Insert new user (POST: phone_number, name, email)
     if (pathname === "/api/user" && request.method === "POST") {
       const body = await request.json();
-      const { phone_number, name, email } = body;
+      const { phone_number, name, email, latitude = 0.0, longitude = 0.0 } = body;
       const result = await env.DB.prepare(
-        "INSERT INTO Users (phone_number, name, email) VALUES (?, ?, ?)"
-      ).bind(phone_number, name, email).run();
+        "INSERT INTO Users (phone_number, name, email, latitude, longitude) VALUES (?, ?, ?, ?, ?)"
+      ).bind(phone_number, name, email, latitude, longitude).run();
       return Response.json({ success: result.success, changes: result.changes });
     }
+    if (pathname === "/api/user/location" && request.method === "GET") {
+      const url = new URL(request.url);
+      const phone_number = url.searchParams.get("phone_number");
+      const result = await env.DB.prepare(
+        "SELECT latitude, longitude FROM Users WHERE phone_number = ?"
+      ).bind(phone_number).all();
+      return Response.json(result.results[0] || null);
+    }
+
 
     // Insert new group (POST: group_name)
     if (pathname === "/api/group" && request.method === "POST") {
