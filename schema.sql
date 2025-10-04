@@ -39,22 +39,6 @@ CREATE TABLE IF NOT EXISTS GroupMemberships (
 );
 
 -- ==========================================
--- MovementEvents table
--- Historical record of user movement events,
--- such as "entered" or "left" a group.
--- ==========================================
-CREATE TABLE IF NOT EXISTS MovementEvents (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  group_id INTEGER,
-  phone_number TEXT,
-  event_type TEXT NOT NULL,               -- 'entered' or 'left'
-  distance_meters REAL,                   -- distance from check-in when detected
-  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (group_id) REFERENCES Groups(group_id),
-  FOREIGN KEY (phone_number) REFERENCES Users(phone_number)
-);
-
--- ==========================================
 -- Events table (general messaging / alerts)
 -- Optional messaging record — same as before.
 -- ==========================================
